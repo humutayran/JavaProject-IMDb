@@ -1,66 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deneme.DenemeForm">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="deneme.KesfetPenceresi">
   <grid id="27dc6" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="558" height="408"/>
+      <xy x="20" y="20" width="833" height="408"/>
     </constraints>
     <properties>
       <visible value="true"/>
     </properties>
     <border type="none"/>
     <children>
-      <grid id="d2424" binding="leftPanel" layout-manager="GridLayoutManager" row-count="4" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="d2424" binding="leftPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints border-constraint="West"/>
         <properties>
           <background color="-12829571"/>
           <foreground color="-12829571"/>
           <opaque value="true"/>
-          <preferredSize width="152" height="24"/>
+          <preferredSize width="165" height="34"/>
           <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
-          <component id="9fcd1" class="javax.swing.JRadioButton" binding="yetişkinIçeriğiGizleRadioButton" default-binding="true">
+          <component id="9fcd1" class="javax.swing.JRadioButton" binding="yetiskinIcerigiGizleRadioButton" default-binding="true">
             <constraints>
-              <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-12829571"/>
               <focusable value="false"/>
               <foreground color="-1"/>
-              <opaque value="false"/>
+              <opaque value="true"/>
               <text value="Yetişkin içeriği gizle"/>
             </properties>
           </component>
-          <component id="b62b7" class="javax.swing.JRadioButton" binding="popülariteRadioButton" default-binding="true">
+          <component id="b62b7" class="javax.swing.JRadioButton" binding="populariteRadioButton" default-binding="true">
             <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-12829571"/>
               <focusable value="false"/>
               <foreground color="-1"/>
-              <opaque value="false"/>
+              <opaque value="true"/>
               <text value="Popülarite"/>
               <visible value="true"/>
             </properties>
           </component>
-          <component id="e4542" class="javax.swing.JRadioButton" binding="hasılatRadioButton" default-binding="true">
+          <component id="e4542" class="javax.swing.JRadioButton" binding="hasilatRadioButton" default-binding="true">
             <constraints>
-              <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="1" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <background color="-12829571"/>
               <focusable value="false"/>
               <foreground color="-1"/>
-              <opaque value="false"/>
+              <opaque value="true"/>
               <text value="Hasılat"/>
               <visible value="true"/>
             </properties>
           </component>
           <scrollpane id="7a563" binding="scrollPane">
             <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+              <grid row="2" column="0" row-span="1" col-span="2" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <minimum-size width="-1" height="130"/>
-                <preferred-size width="-1" height="130"/>
+                <preferred-size width="-1" height="300"/>
               </grid>
             </constraints>
             <properties>
@@ -69,15 +72,16 @@
             </properties>
             <border type="none"/>
             <children>
-              <grid id="53e95" layout-manager="GridBagLayout">
+              <grid id="53e95" binding="scrollPanePanel" layout-manager="GridBagLayout">
                 <constraints/>
                 <properties>
                   <autoscrolls value="true"/>
                   <background color="-13750688"/>
                   <opaque value="true"/>
                 </properties>
-                <border type="bevel-lowered" title-justification="1" title-position="2">
-                  <font size="16"/>
+                <border type="none" title-justification="1" title-position="2">
+                  <font name="Algerian" size="14"/>
+                  <title-color color="-3421253"/>
                 </border>
                 <children>
                   <component id="8b834" class="javax.swing.JLabel" binding="aksiyonLabel">
@@ -108,45 +112,6 @@
                   </component>
                   <component id="daa58" class="javax.swing.JLabel" binding="animasyonLabel">
                     <constraints>
-                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
-                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono" size="12" style="1"/>
-                      <foreground color="-1"/>
-                      <opaque value="false"/>
-                      <text value="Animasyon"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="84261" class="javax.swing.JLabel" binding="komediLabel">
-                    <constraints>
-                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
-                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono" size="12" style="1"/>
-                      <foreground color="-1"/>
-                      <opaque value="false"/>
-                      <text value="Komedi"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="7326c" class="javax.swing.JLabel" binding="suçLabel">
-                    <constraints>
-                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
-                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono" size="12" style="1"/>
-                      <foreground color="-1"/>
-                      <opaque value="false"/>
-                      <text value="Suç"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="a6322" class="javax.swing.JLabel" binding="belgeselLabel">
-                    <constraints>
                       <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
                       <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
                     </constraints>
@@ -154,20 +119,7 @@
                       <font name="JetBrains Mono" size="12" style="1"/>
                       <foreground color="-1"/>
                       <opaque value="false"/>
-                      <text value="Belgesel"/>
-                      <visible value="true"/>
-                    </properties>
-                  </component>
-                  <component id="7ef2e" class="javax.swing.JLabel" binding="tarihLabel">
-                    <constraints>
-                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
-                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
-                    </constraints>
-                    <properties>
-                      <font name="JetBrains Mono" size="12" style="1"/>
-                      <foreground color="-1"/>
-                      <opaque value="false"/>
-                      <text value="Tarih"/>
+                      <text value="Animasyon"/>
                       <visible value="true"/>
                     </properties>
                   </component>
@@ -184,7 +136,7 @@
                       <visible value="true"/>
                     </properties>
                   </component>
-                  <component id="3bfeb" class="javax.swing.JLabel" binding="müzikLabel">
+                  <component id="3bfeb" class="javax.swing.JLabel" binding="muzikLabel">
                     <constraints>
                       <grid row="12" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
                       <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
@@ -262,7 +214,7 @@
                       <visible value="true"/>
                     </properties>
                   </component>
-                  <component id="f455a" class="javax.swing.JLabel" binding="batılıLabel">
+                  <component id="f455a" class="javax.swing.JLabel" binding="batiliLabel">
                     <constraints>
                       <grid row="18" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
                       <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
@@ -321,9 +273,62 @@
                     </constraints>
                     <properties>
                       <font name="JetBrains Mono" size="12" style="1"/>
-                      <foreground color="-1"/>
+                      <foreground color="-349"/>
+                      <horizontalAlignment value="0"/>
                       <opaque value="false"/>
                       <text value="Keşfet"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="7ef2e" class="javax.swing.JLabel" binding="tarihLabel">
+                    <constraints>
+                      <grid row="10" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="12" style="1"/>
+                      <foreground color="-1"/>
+                      <opaque value="false"/>
+                      <text value="Tarih"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="84261" class="javax.swing.JLabel" binding="komediLabel">
+                    <constraints>
+                      <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="12" style="1"/>
+                      <foreground color="-1"/>
+                      <opaque value="false"/>
+                      <text value="Komedi"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="7326c" class="javax.swing.JLabel" binding="sucLabel">
+                    <constraints>
+                      <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="12" style="1"/>
+                      <foreground color="-1"/>
+                      <opaque value="false"/>
+                      <text value="Suç"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="a6322" class="javax.swing.JLabel" binding="belgeselLabel">
+                    <constraints>
+                      <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="3" indent="1" use-parent-layout="false"/>
+                      <gridbag top="0" left="3" bottom="0" right="0" weightx="1.0" weighty="1.0"/>
+                    </constraints>
+                    <properties>
+                      <font name="JetBrains Mono" size="12" style="1"/>
+                      <foreground color="-1"/>
+                      <opaque value="false"/>
+                      <text value="Belgesel"/>
                       <visible value="true"/>
                     </properties>
                   </component>
@@ -333,12 +338,74 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="4266e" binding="rightPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+      <grid id="26f0a" binding="rightPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
-        <children/>
+        <children>
+          <grid id="13df0" binding="rightTopPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
+            <constraints border-constraint="North"/>
+            <properties>
+              <background color="-12829571"/>
+              <opaque value="true"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="1ce93" binding="rightBottomPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+            <constraints border-constraint="South"/>
+            <properties>
+              <background color="-12829571"/>
+              <opaque value="true"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="83c6a" class="javax.swing.JButton" binding="araKucuk">
+                <constraints/>
+                <properties>
+                  <minimumSize width="35" height="15"/>
+                  <opaque value="true"/>
+                  <preferredSize width="35" height="15"/>
+                  <text value="&lt;"/>
+                </properties>
+              </component>
+              <component id="5ded9" class="javax.swing.JButton" binding="araEsit">
+                <constraints/>
+                <properties>
+                  <minimumSize width="35" height="15"/>
+                  <opaque value="true"/>
+                  <preferredSize width="35" height="15"/>
+                  <text value="="/>
+                </properties>
+              </component>
+              <component id="7f02d" class="javax.swing.JButton" binding="araBuyuk">
+                <constraints/>
+                <properties>
+                  <minimumSize width="35" height="15"/>
+                  <opaque value="true"/>
+                  <preferredSize width="35" height="15"/>
+                  <text value="&gt;"/>
+                </properties>
+              </component>
+              <component id="6605d" class="javax.swing.JTextField" binding="tarihAyarla">
+                <constraints/>
+                <properties>
+                  <alignmentY value="1.0"/>
+                  <background color="-1"/>
+                  <caretColor color="-12829571"/>
+                  <disabledTextColor color="-16777216"/>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-16777216"/>
+                  <opaque value="true"/>
+                  <preferredSize width="35" height="20"/>
+                  <text value=""/>
+                  <toolTipText value="Tarihe göre arama yap"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
       </grid>
     </children>
   </grid>

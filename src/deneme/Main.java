@@ -1,11 +1,10 @@
 package deneme;
 
-import java.io.IOException;
-
 public class Main {
-    public static void main(String[] args) throws IOException {
-        TheMovieDb theMovieDb = new TheMovieDb();
-        DenemeForm denemeForm = new DenemeForm();
+    public static void main(String[] args) {
+//        TheMovieDb theMovieDb = new TheMovieDb();
+        new KesfetPenceresi();
+//        theMovieDb.kesfet(theMovieDb.linkGenerator(false, 1, 0));
     }
 }
 

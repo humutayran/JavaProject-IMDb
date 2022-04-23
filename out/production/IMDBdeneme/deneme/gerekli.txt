@@ -29,3 +29,12 @@ türe göre
 
     "https://api.themoviedb.org/3/" +
                     "discover/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr"
+
+
+        for (int i = 0; i < movies.length(); i++) {
+            JSONObject movie = movies.getJSONObject(i);
+            String imgUrl = movie.getString("backdrop_path");
+            String title = movie.getString("original_title");
+            String overview = movie.getString("overview");
+//            System.out.println(title.concat("\n-->").concat(overview));
+        }
