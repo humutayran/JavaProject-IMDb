@@ -41,6 +41,8 @@ public class KesfetPenceresi {
     private JButton araKucuk;
     private JButton araEsit;
     private JButton araBuyuk;
+    private JLabel sayfaSayisi;
+    private JTextField sayfaSimdiki;
     private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
     private JPanel contentPane = new JPanel();
     private TheMovieDb theMovieDb = new TheMovieDb();
@@ -52,6 +54,7 @@ public class KesfetPenceresi {
     private String currentLink =
             "https://api.themoviedb.org/3/discover/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
     private JLabel currentLabel;
+    private int sayfa = 1;
 
     public KesfetPenceresi() {
         JFrame frame = new JFrame();
@@ -76,11 +79,12 @@ public class KesfetPenceresi {
         filmPaneliLayers();
         scrollPaneSettings();
         solPanelItemleri();
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil);
+        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
 //        filmPanelOtomasyon();
         filterWRadioButton();
         yilaGoreArama();
         tarihTextArea();
+        sayfaDegis();
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -88,6 +92,48 @@ public class KesfetPenceresi {
         for (int i = 0; i < 19; i++) {
             kesfetListeners(kesfetLabels[i], i);
         }
+        sayfaSimdiki.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    if (Integer.parseInt(sayfaSimdiki.getText()) > Integer.parseInt(sayfaSayisi.getText())) {
+                        JOptionPane.showMessageDialog(null, "Sağda gösterilen sayfa sayısını aştın",
+                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (Integer.parseInt(sayfaSimdiki.getText()) < 1) {
+                        JOptionPane.showMessageDialog(null, "\"1\"den daha düşük sayı giremezsin",
+                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        sayfa = Integer.parseInt(sayfaSimdiki.getText());
+
+                    }
+                }
+            }
+        });
+    }
+
+    protected void sayfaDegis() {
+        sayfaSayisi.setForeground(new Color(187,187,187));
+        sayfaSayisi.setText(String.valueOf(theMovieDb.sayfaSayisi(currentLink,false)));
+        sayfaSimdiki.setText(String.valueOf(theMovieDb.sayfaSayisi(currentLink,true)));
+        sayfaSimdiki.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    if (Integer.parseInt(sayfaSimdiki.getText()) > Integer.parseInt(sayfaSayisi.getText())) {
+                        JOptionPane.showMessageDialog(null, "Sağda gösterilen sayfa sayısını aştın",
+                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
+                    } else if (Integer.parseInt(sayfaSimdiki.getText()) < 1) {
+                        JOptionPane.showMessageDialog(null, "\"1\"den daha düşük sayı giremezsin",
+                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        // burayı düzenle
+                        sayfa = Integer.parseInt(sayfaSimdiki.getText());
+                        refreshFilmPaneli();
+                    }
+                }
+            }
+        });
+
     }
 
     protected void filterWRadioButton() {
@@ -211,12 +257,12 @@ public class KesfetPenceresi {
     //
 
     public void refreshFilmPaneli() {
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil);
+        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
         filmPaneli.removeAll();
         filmPanelOtomasyon();
     }
     public void refreshFilmPaneli(boolean once) {
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, once);
+        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa, once);
         filmPaneli.removeAll();
         filmPanelOtomasyon();
     }
@@ -316,10 +362,15 @@ public class KesfetPenceresi {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (tarihAyarla.getText().isBlank()) yil = 0;
-                    else yil = Integer.parseInt(tarihAyarla.getText());
+                    if (tarihAyarla.getText().isBlank()) {
+                        yil = 0;
+                        refreshFilmPaneli();
+                    }
+                    else {
+                        yil = Integer.parseInt(tarihAyarla.getText());
+                        refreshFilmPaneli(false);
+                    }
                     tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
-                    refreshFilmPaneli(false);
                 } catch (Exception exception) {
                     tarihAyarla.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
@@ -331,10 +382,15 @@ public class KesfetPenceresi {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (tarihAyarla.getText().isBlank()) yil = 0;
-                    else yil = Integer.parseInt(tarihAyarla.getText());
+                    if (tarihAyarla.getText().isBlank()) {
+                        yil = 0;
+                        refreshFilmPaneli();
+                    }
+                    else {
+                        yil = Integer.parseInt(tarihAyarla.getText());
+                        refreshFilmPaneli(true);
+                    }
                     tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
-                    refreshFilmPaneli(true);
                     System.out.println(currentLink);
                 } catch (Exception exception) {
                     tarihAyarla.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));

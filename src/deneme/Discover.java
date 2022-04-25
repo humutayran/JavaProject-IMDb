@@ -15,6 +15,10 @@ public abstract class Discover extends Connection {
         else return "&sort_by=revenue.desc";
     }
 
+    public String sayfa(int sayfa) {
+        return "&page=" + sayfa;
+    }
+
     /* arama seçenekleri */
     public String yetiskinIcerigiGizleme() {
         return "&include_adult=true";

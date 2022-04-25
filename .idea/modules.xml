@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IMDBdeneme.iml" filepath="$PROJECT_DIR$/IMDBdeneme.iml" />
-      <module fileurl="file://$PROJECT_DIR$/amk/amk.iml" filepath="$PROJECT_DIR$/amk/amk.iml" />
     </modules>
   </component>
 </project>

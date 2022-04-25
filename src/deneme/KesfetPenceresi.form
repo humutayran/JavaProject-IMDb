@@ -10,7 +10,7 @@
     <border type="none"/>
     <children>
       <grid id="d2424" binding="leftPanel" layout-manager="GridLayoutManager" row-count="4" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
+        <margin top="5" left="0" bottom="5" right="2"/>
         <constraints border-constraint="West"/>
         <properties>
           <background color="-12829571"/>
@@ -344,7 +344,7 @@
         <border type="none"/>
         <children>
           <grid id="13df0" binding="rightTopPanel" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints border-constraint="North"/>
             <properties>
               <background color="-12829571"/>
@@ -353,7 +353,8 @@
             <border type="none"/>
             <children/>
           </grid>
-          <grid id="1ce93" binding="rightBottomPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+          <grid id="1ce93" binding="rightBottomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="10" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="5" left="5" bottom="5" right="5"/>
             <constraints border-constraint="South"/>
             <properties>
               <background color="-12829571"/>
@@ -362,8 +363,12 @@
             <border type="none"/>
             <children>
               <component id="83c6a" class="javax.swing.JButton" binding="araKucuk">
-                <constraints/>
+                <constraints>
+                  <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
                 <properties>
+                  <focusPainted value="false"/>
+                  <focusable value="true"/>
                   <minimumSize width="35" height="15"/>
                   <opaque value="true"/>
                   <preferredSize width="35" height="15"/>
@@ -371,8 +376,12 @@
                 </properties>
               </component>
               <component id="5ded9" class="javax.swing.JButton" binding="araEsit">
-                <constraints/>
+                <constraints>
+                  <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
                 <properties>
+                  <focusPainted value="false"/>
+                  <focusable value="true"/>
                   <minimumSize width="35" height="15"/>
                   <opaque value="true"/>
                   <preferredSize width="35" height="15"/>
@@ -380,8 +389,12 @@
                 </properties>
               </component>
               <component id="7f02d" class="javax.swing.JButton" binding="araBuyuk">
-                <constraints/>
+                <constraints>
+                  <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
                 <properties>
+                  <focusPainted value="false"/>
+                  <focusable value="true"/>
                   <minimumSize width="35" height="15"/>
                   <opaque value="true"/>
                   <preferredSize width="35" height="15"/>
@@ -389,18 +402,82 @@
                 </properties>
               </component>
               <component id="6605d" class="javax.swing.JTextField" binding="tarihAyarla">
-                <constraints/>
+                <constraints>
+                  <grid row="0" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
                 <properties>
-                  <alignmentY value="1.0"/>
+                  <alignmentY value="0.5"/>
                   <background color="-1"/>
                   <caretColor color="-12829571"/>
                   <disabledTextColor color="-16777216"/>
                   <font name="JetBrains Mono" size="14" style="1"/>
                   <foreground color="-16777216"/>
+                  <margin top="2" left="6" bottom="2" right="6"/>
                   <opaque value="true"/>
                   <preferredSize width="35" height="20"/>
                   <text value=""/>
                   <toolTipText value="Tarihe göre arama yap"/>
+                </properties>
+              </component>
+              <hspacer id="4377f">
+                <constraints>
+                  <grid row="0" column="5" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                </constraints>
+              </hspacer>
+              <component id="18be9" class="javax.swing.JLabel" binding="sayfaSayisi">
+                <constraints>
+                  <grid row="0" column="9" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <focusable value="false"/>
+                  <font name="JetBrains Mono" size="16" style="1"/>
+                  <text value=""/>
+                </properties>
+              </component>
+              <component id="8bdba" class="javax.swing.JTextField" binding="sayfaSimdiki">
+                <constraints>
+                  <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <alignmentY value="0.5"/>
+                  <background color="-11645040"/>
+                  <caretColor color="-8457217"/>
+                  <disabledTextColor color="-16777216"/>
+                  <font name="JetBrains Mono" size="14" style="1"/>
+                  <foreground color="-1"/>
+                  <margin top="2" left="6" bottom="2" right="6"/>
+                  <opaque value="true"/>
+                  <preferredSize width="35" height="20"/>
+                  <text value=""/>
+                  <toolTipText value=""/>
+                </properties>
+              </component>
+              <component id="ac199" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <foreground color="-131587"/>
+                  <horizontalAlignment value="11"/>
+                  <text value="Tarih:"/>
+                </properties>
+              </component>
+              <component id="7fd93" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="28"/>
+                  <text value="+"/>
+                </properties>
+              </component>
+              <component id="10b51" class="javax.swing.JLabel">
+                <constraints>
+                  <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
+                </constraints>
+                <properties>
+                  <font size="28"/>
+                  <text value="-"/>
                 </properties>
               </component>
             </children>

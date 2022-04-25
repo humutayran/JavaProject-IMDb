@@ -30,17 +30,21 @@ public class TheMovieDb extends Discover {
 //        System.out.println(title.concat("\n> ").concat(overview));
 //    }
 
-    public String linkGenerator(boolean yetiskinOlsunMu, int sirala /* 0 popülarite 1 hasılat */, int tur, int yil) {
+    public String linkGenerator(boolean yetiskinOlsunMu, int sirala /* 0 popülarite 1 hasılat */, int tur, int yil, int page) {
         String newUrl = getUrl();
         if (yetiskinOlsunMu) newUrl += yetiskinIcerigiGizleme();
         newUrl += siralama(sirala);
+        newUrl += sayfa(page);
         if (tureGore(tur) != null) newUrl+= tureGore(tur);
         return newUrl + belirliTarih(yil);
     }
-    public String linkGenerator(boolean yetiskinOlsunMu, int sirala /* 0 popülarite 1 hasılat */, int tur, int yil, boolean once) {
+
+
+    public String linkGenerator(boolean yetiskinOlsunMu, int sirala /* 0 popülarite 1 hasılat */, int tur, int yil,int page, boolean once) {
         String newUrl = getUrl();
         if (yetiskinOlsunMu) newUrl += yetiskinIcerigiGizleme();
         newUrl += siralama(sirala);
+        newUrl += sayfa(page);
         if (tureGore(tur) != null) newUrl+= tureGore(tur);
         if (once) newUrl += tarihtenOnce(yil);
         else newUrl += tarihtenSonra(yil);
@@ -97,6 +101,25 @@ public class TheMovieDb extends Discover {
             e.printStackTrace();
         }
         return jsonObj.getJSONArray("results").length();
+    }
+
+    public int sayfaSayisi(String link, boolean simdiki) {
+
+        URL url = null;
+        try {
+            url = new URL(link);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        JSONObject jsonObj = null;
+        try {
+            jsonObj = new JSONObject(baglanti(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (simdiki)
+            return jsonObj.getInt("page");
+        return jsonObj.getInt("total_pages");
     }
 
     public Image imgParser(String link){
