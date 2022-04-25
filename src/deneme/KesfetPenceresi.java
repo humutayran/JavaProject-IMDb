@@ -3,6 +3,8 @@ package deneme;
 import org.json.JSONArray;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
@@ -55,6 +57,7 @@ public class KesfetPenceresi {
             "https://api.themoviedb.org/3/discover/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
     private JLabel currentLabel;
     private int sayfa = 1;
+    private Boolean sonAramaTarih = null;
 
     public KesfetPenceresi() {
         JFrame frame = new JFrame();
@@ -75,7 +78,6 @@ public class KesfetPenceresi {
 
         populariteRadioButton.setSelected(true);
 
-        tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
         filmPaneliLayers();
         scrollPaneSettings();
         solPanelItemleri();
@@ -126,9 +128,10 @@ public class KesfetPenceresi {
                         JOptionPane.showMessageDialog(null, "\"1\"den daha düşük sayı giremezsin",
                                 "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                     } else {
-                        // burayı düzenle
                         sayfa = Integer.parseInt(sayfaSimdiki.getText());
-                        refreshFilmPaneli();
+                        if (sonAramaTarih == null) refreshFilmPaneli();
+                        else if (sonAramaTarih) refreshFilmPaneli(true);
+                        else refreshFilmPaneli();
                     }
                 }
             }
@@ -246,7 +249,7 @@ public class KesfetPenceresi {
                     label.setBorder(BorderFactory.createMatteBorder(1,1,0,0,Color.red));
                     label.setOpaque(true);
                 }
-
+                sayfa = 1;
                 tur = i;
                 refreshFilmPaneli();
                 System.out.println(currentLink);
@@ -258,12 +261,15 @@ public class KesfetPenceresi {
 
     public void refreshFilmPaneli() {
         currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
+        sayfaSimdiki.setText(String.valueOf(sayfa));
         filmPaneli.removeAll();
+        System.out.println(currentLink);
         filmPanelOtomasyon();
     }
     public void refreshFilmPaneli(boolean once) {
         currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa, once);
         filmPaneli.removeAll();
+        System.out.println(currentLink);
         filmPanelOtomasyon();
     }
 
@@ -336,8 +342,8 @@ public class KesfetPenceresi {
         rightPanel.add(contentPane, BorderLayout.CENTER);
     }
 
-
     public void yilaGoreArama() {
+        Border empty = new EmptyBorder(0, 6, 0, 0);
         araEsit.setBorder(BorderFactory.createEmptyBorder());
         araBuyuk.setBorder(BorderFactory.createEmptyBorder());
         araKucuk.setBorder(BorderFactory.createEmptyBorder());
@@ -346,12 +352,18 @@ public class KesfetPenceresi {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if (tarihAyarla.getText().isBlank()) yil = 0;
-                    else yil = Integer.parseInt(tarihAyarla.getText());
-                    tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
+                    if (tarihAyarla.getText().isBlank()) {
+                        yil = 0;
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
+                    }
+                    else {
+                        yil = Integer.parseInt(tarihAyarla.getText());
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
+                    }
+                    sonAramaTarih = null;
                     refreshFilmPaneli();
                 } catch (Exception exception) {
-                    tarihAyarla.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+                    tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
                             "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -364,15 +376,18 @@ public class KesfetPenceresi {
                 try {
                     if (tarihAyarla.getText().isBlank()) {
                         yil = 0;
+                        sonAramaTarih = null;
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
                         refreshFilmPaneli();
                     }
                     else {
                         yil = Integer.parseInt(tarihAyarla.getText());
+                        sonAramaTarih = false;
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
                         refreshFilmPaneli(false);
                     }
-                    tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
                 } catch (Exception exception) {
-                    tarihAyarla.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+                    tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
                             "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -384,16 +399,18 @@ public class KesfetPenceresi {
                 try {
                     if (tarihAyarla.getText().isBlank()) {
                         yil = 0;
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
                         refreshFilmPaneli();
                     }
                     else {
                         yil = Integer.parseInt(tarihAyarla.getText());
+                        sonAramaTarih = true;
+                        tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
                         refreshFilmPaneli(true);
                     }
-                    tarihAyarla.setBorder(BorderFactory.createEmptyBorder());
                     System.out.println(currentLink);
                 } catch (Exception exception) {
-                    tarihAyarla.setBorder(BorderFactory.createLineBorder(Color.RED, 1, true));
+                    tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
                             "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                 }
