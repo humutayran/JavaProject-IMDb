@@ -45,6 +45,8 @@ public class KesfetPenceresi {
     private JButton araBuyuk;
     private JLabel sayfaSayisi;
     private JTextField sayfaSimdiki;
+    private JLabel birSayfaArtır;
+    private JLabel birSayfaAzalt;
     private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
     private JPanel contentPane = new JPanel();
     private TheMovieDb theMovieDb = new TheMovieDb();
@@ -78,11 +80,11 @@ public class KesfetPenceresi {
 
         populariteRadioButton.setSelected(true);
 
+        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
         filmPaneliLayers();
         scrollPaneSettings();
         solPanelItemleri();
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
-//        filmPanelOtomasyon();
+        filmPanelOtomasyon();
         filterWRadioButton();
         yilaGoreArama();
         tarihTextArea();
@@ -94,23 +96,8 @@ public class KesfetPenceresi {
         for (int i = 0; i < 19; i++) {
             kesfetListeners(kesfetLabels[i], i);
         }
-        sayfaSimdiki.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    if (Integer.parseInt(sayfaSimdiki.getText()) > Integer.parseInt(sayfaSayisi.getText())) {
-                        JOptionPane.showMessageDialog(null, "Sağda gösterilen sayfa sayısını aştın",
-                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
-                    } else if (Integer.parseInt(sayfaSimdiki.getText()) < 1) {
-                        JOptionPane.showMessageDialog(null, "\"1\"den daha düşük sayı giremezsin",
-                                "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
-                    } else {
-                        sayfa = Integer.parseInt(sayfaSimdiki.getText());
 
-                    }
-                }
-            }
-        });
+
     }
 
     protected void sayfaDegis() {
@@ -121,11 +108,11 @@ public class KesfetPenceresi {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    if (Integer.parseInt(sayfaSimdiki.getText()) > Integer.parseInt(sayfaSayisi.getText())) {
-                        JOptionPane.showMessageDialog(null, "Sağda gösterilen sayfa sayısını aştın",
+                    if (Integer.parseInt(sayfaSimdiki.getText()) > 500) {
+                        JOptionPane.showMessageDialog(null, "Sayfa sayısı maksimum  500 olmalı.",
                                 "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                     } else if (Integer.parseInt(sayfaSimdiki.getText()) < 1) {
-                        JOptionPane.showMessageDialog(null, "\"1\"den daha düşük sayı giremezsin",
+                        JOptionPane.showMessageDialog(null, "1'den daha düşük sayı giremezsin.",
                                 "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         sayfa = Integer.parseInt(sayfaSimdiki.getText());
@@ -136,7 +123,29 @@ public class KesfetPenceresi {
                 }
             }
         });
+        birSayfaAzalt.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (sayfa > 1) {
+                    sayfa -= 1;
+                    if (sonAramaTarih == null) refreshFilmPaneli();
+                    else if (sonAramaTarih) refreshFilmPaneli(true);
+                    else refreshFilmPaneli();
+                }
+            }
 
+        });
+        birSayfaArtır.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (sayfa < 500) {
+                    sayfa += 1;
+                    if (sonAramaTarih == null) refreshFilmPaneli();
+                    else if (sonAramaTarih) refreshFilmPaneli(true);
+                    else refreshFilmPaneli();
+                }
+            }
+        });
     }
 
     protected void filterWRadioButton() {
@@ -273,31 +282,35 @@ public class KesfetPenceresi {
         filmPanelOtomasyon();
     }
 
+
     public void filmPanelOtomasyon() {
-        int panelSayisi = new TheMovieDb().kesfetListeUzunlugu(currentLink);
-        JSONArray movies = new TheMovieDb().kesfetFilmListesi(currentLink);
-        for (int i = 0; i < panelSayisi; i++) {
-            String currentImage = new TheMovieDb().findImage(movies, i);
-            if (currentImage == null) continue;
-            JLabel label = new JLabel(new ImageIcon(new TheMovieDb().imgParser(currentImage)));
-            JPanel panel = new JPanel(new BorderLayout());
-            JLabel textLabel = new JLabel(new TheMovieDb().findTitle(movies, i));
-            panel.setBorder(BorderFactory.createMatteBorder(5,0,0,5,new Color(0, 0, 0)));
-            panel.setBackground(new Color(107, 107, 107));
+        new Thread(() -> {
+            System.out.println(currentLink);
+            int panelSayisi = new TheMovieDb().kesfetListeUzunlugu(currentLink);
+            JSONArray movies = new TheMovieDb().kesfetFilmListesi(currentLink);
+            for (int i = 0; i < panelSayisi; i++) {
+                String currentImage = new TheMovieDb().findImage(movies, i);
+                if (currentImage == null) continue;
+                JLabel label = new JLabel(new ImageIcon(new TheMovieDb().imgParser(currentImage)));
+                JPanel panel = new JPanel(new BorderLayout());
+                JLabel textLabel = new JLabel(new TheMovieDb().findTitle(movies, i));
+                panel.setBorder(BorderFactory.createMatteBorder(3,3,3,3,new Color(255, 254, 163)));
+                panel.setBackground(new Color(107, 107, 107));
 
-            textLabel.setFont(f);
-            textLabel.setForeground(new Color(255, 255, 255));
-            textLabel.setHorizontalAlignment(JLabel.CENTER);
-            textLabel.setVerticalAlignment(JLabel.NORTH);
+                textLabel.setFont(f);
+                textLabel.setForeground(new Color(255, 255, 255));
+                textLabel.setHorizontalAlignment(JLabel.CENTER);
+                textLabel.setVerticalAlignment(JLabel.NORTH);
 
-            Fader fader = new Fader( new Color(26,26,28), 10, 15 );
-            fader.add(panel);
-            panel.add(label, BorderLayout.NORTH);
-            panel.add(textLabel, BorderLayout.CENTER);
-            filmPaneli.add(panel);
-            filmPaneli.revalidate();
-            filmPaneli.repaint();
-        }
+                Fader fader = new Fader( new Color(26,26,28), 10, 15 );
+                fader.add(panel);
+                panel.add(label, BorderLayout.NORTH);
+                panel.add(textLabel, BorderLayout.CENTER);
+                filmPaneli.add(panel);
+                filmPaneli.revalidate();
+                filmPaneli.repaint();
+            }
+        }).start();
     }
 
     public void makePanelsClickable(JPanel panel) {

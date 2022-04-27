@@ -358,6 +358,7 @@
             <constraints border-constraint="South"/>
             <properties>
               <background color="-12829571"/>
+              <maximumSize width="2147483647" height="42"/>
               <opaque value="true"/>
             </properties>
             <border type="none"/>
@@ -441,21 +442,23 @@
                   <text value="Tarih:"/>
                 </properties>
               </component>
-              <component id="7fd93" class="javax.swing.JLabel">
+              <component id="7fd93" class="javax.swing.JLabel" binding="birSayfaArtır">
                 <constraints>
-                  <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+                  <grid row="0" column="8" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="28"/>
+                  <foreground color="-1"/>
                   <text value="+"/>
                 </properties>
               </component>
-              <component id="10b51" class="javax.swing.JLabel">
+              <component id="10b51" class="javax.swing.JLabel" binding="birSayfaAzalt">
                 <constraints>
                   <grid row="0" column="6" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="5" fill="0" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
                   <font size="28"/>
+                  <foreground color="-1"/>
                   <text value="-"/>
                 </properties>
               </component>
