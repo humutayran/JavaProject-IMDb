@@ -9,6 +9,7 @@ import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class KesfetPenceresi {
     private JPanel panel1;
     private JRadioButton yetiskinIcerigiGizleRadioButton;
@@ -48,6 +49,7 @@ public class KesfetPenceresi {
     private JLabel birSayfaArtır;
     private JLabel birSayfaAzalt;
     private JTextField rightBottomFlickInfoTF;
+    private JTextField searchTF;
     private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
     private JPanel contentPane = new JPanel();
     private TheMovieDb theMovieDb = new TheMovieDb();
@@ -62,10 +64,12 @@ public class KesfetPenceresi {
     private int sayfa = 1;
     private Boolean sonAramaTarih = null;
 
+
     public KesfetPenceresi() {
         JFrame frame = new JFrame();
         frame.setSize(1500,800);
         frame.add(panel1);
+        panel1.setFocusable(true);
         rightBottomFlickInfoTF.setBorder(BorderFactory.createEmptyBorder());
 
         try {
@@ -83,6 +87,7 @@ public class KesfetPenceresi {
         populariteRadioButton.setSelected(true);
 
         currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
+        searchField();
         filmPaneliLayers();
         scrollPaneSettings();
         solPanelItemleri();
@@ -443,6 +448,23 @@ public class KesfetPenceresi {
                 if (tarih.length() > 3) {
                     tarihAyarla.setText(tarih.substring(0, tarih.length() - 1));
                 }
+            }
+        });
+    }
+
+    public void searchField() {
+        searchTF.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(255, 254, 163),2),
+                new EmptyBorder(0, 6, 0, 0)));
+        searchTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                searchTF.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchTF.getText().isBlank())
+                    searchTF.setText("Ara");
             }
         });
     }
