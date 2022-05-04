@@ -47,6 +47,7 @@ public class KesfetPenceresi {
     private JTextField sayfaSimdiki;
     private JLabel birSayfaArtır;
     private JLabel birSayfaAzalt;
+    private JTextField rightBottomFlickInfoTF;
     private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
     private JPanel contentPane = new JPanel();
     private TheMovieDb theMovieDb = new TheMovieDb();
@@ -65,6 +66,7 @@ public class KesfetPenceresi {
         JFrame frame = new JFrame();
         frame.setSize(1500,800);
         frame.add(panel1);
+        rightBottomFlickInfoTF.setBorder(BorderFactory.createEmptyBorder());
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -294,6 +296,7 @@ public class KesfetPenceresi {
                 JLabel label = new JLabel(new ImageIcon(new TheMovieDb().imgParser(currentImage)));
                 JPanel panel = new JPanel(new BorderLayout());
                 JLabel textLabel = new JLabel(new TheMovieDb().findTitle(movies, i));
+                String originalTitle = new TheMovieDb().findOriginalTitle(movies, i);
                 panel.setBorder(BorderFactory.createMatteBorder(3,3,3,3,new Color(255, 254, 163)));
                 panel.setBackground(new Color(107, 107, 107));
 
@@ -301,6 +304,7 @@ public class KesfetPenceresi {
                 textLabel.setForeground(new Color(255, 255, 255));
                 textLabel.setHorizontalAlignment(JLabel.CENTER);
                 textLabel.setVerticalAlignment(JLabel.NORTH);
+                makePanelsClickable(panel, originalTitle);
 
                 Fader fader = new Fader( new Color(26,26,28), 10, 15 );
                 fader.add(panel);
@@ -313,7 +317,7 @@ public class KesfetPenceresi {
         }).start();
     }
 
-    public void makePanelsClickable(JPanel panel) {
+    public void makePanelsClickable(JPanel panel, String originalTitle) {
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -332,7 +336,7 @@ public class KesfetPenceresi {
 
             @Override
             public void mouseEntered(MouseEvent e) {
-
+                rightBottomFlickInfoTF.setText("Orijinal Başlık: \"" + originalTitle + "\"");
             }
 
             @Override

@@ -81,6 +81,7 @@ public class TheMovieDb extends Discover {
         JSONObject movie = movies.getJSONObject(index);
         return movie.getString("title");
     }
+
     public String findOriginalTitle(JSONArray movies, int index) {
         JSONObject movie = movies.getJSONObject(index);
         return movie.getString("original_title");
