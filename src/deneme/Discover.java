@@ -8,6 +8,10 @@ public abstract class Discover extends Connection {
         return s;
     }
 
+    public String sorgu(String aranilacak) {
+        return "&query=" + aranilacak;
+    }
+
     public String siralama(int sirala) {
         /* 0 popülariteye göre sıralar */
         if (sirala == 0) return "&sort_by=popularity.desc";

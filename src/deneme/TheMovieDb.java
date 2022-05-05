@@ -39,7 +39,6 @@ public class TheMovieDb extends Discover {
         return newUrl + belirliTarih(yil);
     }
 
-
     public String linkGenerator(boolean yetiskinOlsunMu, int sirala /* 0 popülarite 1 hasılat */, int tur, int yil,int page, boolean once) {
         String newUrl = getUrl();
         if (yetiskinOlsunMu) newUrl += yetiskinIcerigiGizleme();
@@ -49,6 +48,24 @@ public class TheMovieDb extends Discover {
         if (once) newUrl += tarihtenOnce(yil);
         else newUrl += tarihtenSonra(yil);
         return newUrl;
+    }
+
+    public String araLinkGenerator(String aranilacak, boolean yetiskinOlsunMu, int yil, int page, boolean once) {
+        String newUrl = "https://api.themoviedb.org/3/search/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
+        newUrl += sorgu(aranilacak);
+        if (yetiskinOlsunMu) newUrl += yetiskinIcerigiGizleme();
+        newUrl += sayfa(page);
+        if (once) newUrl += tarihtenOnce(yil);
+        else newUrl += tarihtenSonra(yil);
+        return newUrl;
+    }
+
+    public String araLinkGenerator(String aranilacak, boolean yetiskinOlsunMu, int yil, int page) {
+        String newUrl = "https://api.themoviedb.org/3/search/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
+        newUrl += sorgu(aranilacak);
+        if (yetiskinOlsunMu) newUrl += yetiskinIcerigiGizleme();
+        newUrl += sayfa(page);
+        return newUrl + belirliTarih(yil);
     }
 
     public JSONArray kesfetFilmListesi(String link){

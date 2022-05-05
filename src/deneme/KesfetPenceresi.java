@@ -50,6 +50,7 @@ public class KesfetPenceresi {
     private JLabel birSayfaAzalt;
     private JTextField rightBottomFlickInfoTF;
     private JTextField searchTF;
+    private JButton button1;
     private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
     private JPanel contentPane = new JPanel();
     private TheMovieDb theMovieDb = new TheMovieDb();
@@ -62,7 +63,9 @@ public class KesfetPenceresi {
             "https://api.themoviedb.org/3/discover/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
     private JLabel currentLabel;
     private int sayfa = 1;
-    private Boolean sonAramaTarih = null;
+    private Boolean sonAramaTarihOnce = null;
+    private String query = null;
+
 
 
     public KesfetPenceresi() {
@@ -96,9 +99,11 @@ public class KesfetPenceresi {
         yilaGoreArama();
         tarihTextArea();
         sayfaDegis();
+        araFonksiyonu();
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
 
         for (int i = 0; i < 19; i++) {
             kesfetListeners(kesfetLabels[i], i);
@@ -123,9 +128,7 @@ public class KesfetPenceresi {
                                 "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         sayfa = Integer.parseInt(sayfaSimdiki.getText());
-                        if (sonAramaTarih == null) refreshFilmPaneli();
-                        else if (sonAramaTarih) refreshFilmPaneli(true);
-                        else refreshFilmPaneli();
+                       refreshFilmPaneli();
                     }
                 }
             }
@@ -135,9 +138,7 @@ public class KesfetPenceresi {
             public void mouseClicked(MouseEvent e) {
                 if (sayfa > 1) {
                     sayfa -= 1;
-                    if (sonAramaTarih == null) refreshFilmPaneli();
-                    else if (sonAramaTarih) refreshFilmPaneli(true);
-                    else refreshFilmPaneli();
+                    refreshFilmPaneli();
                 }
             }
 
@@ -147,9 +148,7 @@ public class KesfetPenceresi {
             public void mouseClicked(MouseEvent e) {
                 if (sayfa < 500) {
                     sayfa += 1;
-                    if (sonAramaTarih == null) refreshFilmPaneli();
-                    else if (sonAramaTarih) refreshFilmPaneli(true);
-                    else refreshFilmPaneli();
+                    refreshFilmPaneli();
                 }
             }
         });
@@ -258,17 +257,19 @@ public class KesfetPenceresi {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (currentLabel != null) {currentLabel.setOpaque(false); currentLabel.setBorder(BorderFactory.createEmptyBorder());}
-                currentLabel = label;
-                if (currentLabel != kesfetLabel){
-                    label.setBackground(new Color(200,50,25));
-                    label.setBorder(BorderFactory.createMatteBorder(1,1,0,0,Color.red));
-                    label.setOpaque(true);
+                if (query == null) {
+                    if (currentLabel != null) {currentLabel.setOpaque(false); currentLabel.setBorder(BorderFactory.createEmptyBorder());}
+                    currentLabel = label;
+                    if (currentLabel != kesfetLabel){
+                        label.setBackground(new Color(200,50,25));
+                        label.setBorder(BorderFactory.createMatteBorder(1,1,0,0,Color.red));
+                        label.setOpaque(true);
+                    }
+                    sayfa = 1;
+                    tur = i;
+                    refreshFilmPaneli();
+                    System.out.println(currentLink);
                 }
-                sayfa = 1;
-                tur = i;
-                refreshFilmPaneli();
-                System.out.println(currentLink);
             }
         });
     }
@@ -276,17 +277,55 @@ public class KesfetPenceresi {
     //
 
     public void refreshFilmPaneli() {
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
+        if (sonAramaTarihOnce == null && query == null) {
+            currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
+        }
+        else if (query == null){
+            currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa, sonAramaTarihOnce);
+        }
+        else if (sonAramaTarihOnce == null && query != null) {
+            currentLink = theMovieDb.araLinkGenerator(query, includeAdult, yil, sayfa);
+        }
+        else {
+            currentLink = theMovieDb.araLinkGenerator(query, includeAdult, yil, sayfa, sonAramaTarihOnce);
+        }
         sayfaSimdiki.setText(String.valueOf(sayfa));
         filmPaneli.removeAll();
         System.out.println(currentLink);
         filmPanelOtomasyon();
     }
-    public void refreshFilmPaneli(boolean once) {
-        currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa, once);
-        filmPaneli.removeAll();
-        System.out.println(currentLink);
-        filmPanelOtomasyon();
+
+    public void araFonksiyonu() {
+        searchTF.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    if (searchTF.getText().isBlank()) {
+                        query = null;
+                        refreshFilmPaneli();
+                    }
+                    else {
+                        query = searchTF.getText();
+                        refreshFilmPaneli();
+                    }
+                }
+            }
+        });
+        button1.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (searchTF.getText().isBlank()) {
+                    query = null;
+                    refreshFilmPaneli();
+                }
+                else {
+                    query = searchTF.getText();
+                    refreshFilmPaneli();
+                }
+            }
+        });
+
     }
 
 
@@ -376,13 +415,15 @@ public class KesfetPenceresi {
                 try {
                     if (tarihAyarla.getText().isBlank()) {
                         yil = 0;
+                        sayfa = 1;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
                     }
                     else {
                         yil = Integer.parseInt(tarihAyarla.getText());
+                        sayfa = 1;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
                     }
-                    sonAramaTarih = null;
+                    sonAramaTarihOnce = null;
                     refreshFilmPaneli();
                 } catch (Exception exception) {
                     tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
@@ -398,15 +439,17 @@ public class KesfetPenceresi {
                 try {
                     if (tarihAyarla.getText().isBlank()) {
                         yil = 0;
-                        sonAramaTarih = null;
+                        sayfa = 1;
+                        sonAramaTarihOnce = null;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
                         refreshFilmPaneli();
                     }
                     else {
                         yil = Integer.parseInt(tarihAyarla.getText());
-                        sonAramaTarih = false;
+                        sayfa = 1;
+                        sonAramaTarihOnce = false;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
-                        refreshFilmPaneli(false);
+                        refreshFilmPaneli();
                     }
                 } catch (Exception exception) {
                     tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
@@ -421,14 +464,16 @@ public class KesfetPenceresi {
                 try {
                     if (tarihAyarla.getText().isBlank()) {
                         yil = 0;
+                        sayfa = 1;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.white),empty));
                         refreshFilmPaneli();
                     }
                     else {
                         yil = Integer.parseInt(tarihAyarla.getText());
-                        sonAramaTarih = true;
+                        sayfa = 1;
+                        sonAramaTarihOnce = true;
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
-                        refreshFilmPaneli(true);
+                        refreshFilmPaneli();
                     }
                     System.out.println(currentLink);
                 } catch (Exception exception) {
