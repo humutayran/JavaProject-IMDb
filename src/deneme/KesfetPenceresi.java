@@ -16,7 +16,6 @@ public class KesfetPenceresi {
     private JRadioButton populariteRadioButton;
     private JRadioButton hasilatRadioButton;
     private JScrollPane scrollPane;
-    private JPanel leftPanel;
     private JLabel aksiyonLabel;
     private JLabel maceraLabel;
     private JLabel animasyonLabel;
@@ -37,10 +36,7 @@ public class KesfetPenceresi {
     private JLabel fantastikLabel;
     private JLabel kesfetLabel;
     private JTextField tarihAyarla;
-    private JPanel scrollPanePanel;
     private JPanel rightPanel;
-    private JPanel rightTopPanel;
-    private JPanel rightBottomPanel;
     private JButton araKucuk;
     private JButton araEsit;
     private JButton araBuyuk;
@@ -51,12 +47,16 @@ public class KesfetPenceresi {
     private JTextField rightBottomFlickInfoTF;
     private JTextField searchTF;
     private JButton button1;
-    private JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
-    private JPanel contentPane = new JPanel();
-    private TheMovieDb theMovieDb = new TheMovieDb();
+    private JPanel scrollPanePanel;
+    private JPanel leftPanel;
+    private JPanel rightTopPanel;
+    private JPanel rightBottomPanel;
+    private final JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
+    private final JPanel contentPane = new JPanel();
+    private final TheMovieDb theMovieDb = new TheMovieDb();
     private int siralama = 0, tur = 0, yil;
     private boolean includeAdult = true;
-    private JLabel kesfetLabels[] = new JLabel[] {kesfetLabel, aksiyonLabel, maceraLabel, komediLabel, sucLabel, belgeselLabel,
+    private final JLabel[] kesfetLabels = new JLabel[] {kesfetLabel, aksiyonLabel, maceraLabel, komediLabel, sucLabel, belgeselLabel,
     animasyonLabel, dramaLabel, aileLabel, fantastikLabel, tarihLabel, korkuLabel, muzikLabel, gizemLabel, romantikLabel,
     bilimkurguLabel, gerilimLabel, savasLabel, batiliLabel};
     private String currentLink =
@@ -211,7 +211,7 @@ public class KesfetPenceresi {
     // Tür seçim efektleri
     protected Font d = new Font("JetBrain MONO", Font.BOLD, 12);
     protected Font f = new Font("JetBrain MONO", Font.BOLD, 15);
-    private void filmTürüListener(JLabel label) {
+    private void filmTuruListener(JLabel label) {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -249,7 +249,7 @@ public class KesfetPenceresi {
     public void solPanelItemleri() {
         kesfetListener(kesfetLabel);
         for (int i = 1; i < 19; i++) {
-            filmTürüListener(kesfetLabels[i]);
+            filmTuruListener(kesfetLabels[i]);
         }
     }
 
@@ -268,7 +268,6 @@ public class KesfetPenceresi {
                     sayfa = 1;
                     tur = i;
                     refreshFilmPaneli();
-                    System.out.println(currentLink);
                 }
             }
         });
@@ -291,7 +290,6 @@ public class KesfetPenceresi {
         }
         sayfaSimdiki.setText(String.valueOf(sayfa));
         filmPaneli.removeAll();
-        System.out.println(currentLink);
         filmPanelOtomasyon();
     }
 
@@ -315,9 +313,9 @@ public class KesfetPenceresi {
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (searchTF.getText().isBlank()) {
+                if (searchTF.getText().equals("Ara")) {
                     query = null;
-                    refreshFilmPaneli();
+//                    refreshFilmPaneli();
                 }
                 else {
                     query = searchTF.getText();
@@ -325,9 +323,25 @@ public class KesfetPenceresi {
                 }
             }
         });
-
     }
+    public void searchField() {
+        searchTF.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(255, 254, 163),2),
+                new EmptyBorder(0, 6, 0, 0)));
 
+        searchTF.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                query = null;
+                searchTF.setText("");
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (searchTF.getText().isBlank())
+                    searchTF.setText("Ara");
+            }
+        });
+    }
 
     public void filmPanelOtomasyon() {
         new Thread(() -> {
@@ -385,6 +399,7 @@ public class KesfetPenceresi {
 
             @Override
             public void mouseExited(MouseEvent e) {
+                rightBottomFlickInfoTF.setText("");
 
             }
         });
@@ -475,7 +490,6 @@ public class KesfetPenceresi {
                         tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.green),empty));
                         refreshFilmPaneli();
                     }
-                    System.out.println(currentLink);
                 } catch (Exception exception) {
                     tarihAyarla.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.red),empty));
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
@@ -485,7 +499,6 @@ public class KesfetPenceresi {
         });
 
     }
-
     public void tarihTextArea() {
         tarihAyarla.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
@@ -496,24 +509,6 @@ public class KesfetPenceresi {
             }
         });
     }
-
-    public void searchField() {
-        searchTF.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(255, 254, 163),2),
-                new EmptyBorder(0, 6, 0, 0)));
-        searchTF.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                searchTF.setText("");
-            }
-
-            @Override
-            public void focusLost(FocusEvent e) {
-                if (searchTF.getText().isBlank())
-                    searchTF.setText("Ara");
-            }
-        });
-    }
-
 
 
 }
