@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 
 public class KesfetPenceresi {
@@ -51,7 +52,9 @@ public class KesfetPenceresi {
     private JPanel leftPanel;
     private JPanel rightTopPanel;
     private JPanel rightBottomPanel;
-    private final JPanel filmPaneli = new JPanel(new GridLayout(0, 2, 10, 25));
+    private JLabel girisYapLabel;
+    private JLabel kayitOlLabel;
+    private final JPanel filmPaneli = new JPanel(new GridLayout(0, 4, 10, 10));
     private final JPanel contentPane = new JPanel();
     private final TheMovieDb theMovieDb = new TheMovieDb();
     private int siralama = 0, tur = 0, yil;
@@ -65,13 +68,15 @@ public class KesfetPenceresi {
     private int sayfa = 1;
     private Boolean sonAramaTarihOnce = null;
     private String query = null;
+    private Kullanici kullanici = null;
+    JFrame frame = new JFrame();
 
 
-
-    public KesfetPenceresi() {
-        JFrame frame = new JFrame();
-        frame.setSize(1500,800);
+    public KesfetPenceresi(Kullanici kullanici) {
+        this.kullanici = kullanici;
         frame.add(panel1);
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
         panel1.setFocusable(true);
         rightBottomFlickInfoTF.setBorder(BorderFactory.createEmptyBorder());
 
@@ -100,18 +105,57 @@ public class KesfetPenceresi {
         tarihTextArea();
         sayfaDegis();
         araFonksiyonu();
-
+        kullaniciyaGec();
+        kullaniciKontrol();
+        Dimension dimension = new Dimension(900,550);
+        frame.setMinimumSize(dimension);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
 
         for (int i = 0; i < 19; i++) {
             kesfetListeners(kesfetLabels[i], i);
         }
 
-
     }
 
+    public void kullaniciKontrol() {
+        if (kullanici != null) {
+            kayitOlLabel.setVisible(false);
+            girisYapLabel.setText(kullanici.getKullaniciAdi());
+            girisYapLabel.setFont(new Font("JetBrain MONO", Font.BOLD, 12));
+        }
+    }
+
+
+    public void panelRenk(Color color) {
+        rightBottomPanel.setBackground(color);
+        leftPanel.setBackground(color);
+        rightTopPanel.setBackground(color);
+        scrollPanePanel.setBackground(new Color(30,30,30));
+        hasilatRadioButton.setBackground(color);
+        yetiskinIcerigiGizleRadioButton.setBackground(color);
+        populariteRadioButton.setBackground(color);
+    }
+
+    private void kullaniciyaGec() {
+        girisYapLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new Giris(Main.getKesfetPenceresi());
+            }
+        });
+        kayitOlLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                new KayitOl(Main.getKesfetPenceresi());
+
+            }
+        });
+    }
+
+    /**
+     * Adı üstünde.
+     */
     protected void sayfaDegis() {
         sayfaSayisi.setForeground(new Color(187,187,187));
         sayfaSayisi.setText(String.valueOf(theMovieDb.sayfaSayisi(currentLink,false)));
@@ -154,6 +198,9 @@ public class KesfetPenceresi {
         });
     }
 
+    /**
+     * Radyo Butonlarına işlev kazandırır.
+     */
     protected void filterWRadioButton() {
         populariteRadioButton.addActionListener(new ActionListener() {
             @Override
@@ -177,15 +224,16 @@ public class KesfetPenceresi {
             }
         });
     }
-    //Tür ScrollPane Ayarları
+
+    // Tür ScrollPane Ayarları
     protected void scrollPaneSettings() {
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-        scrollPane.getVerticalScrollBar().setBackground(new Color(46, 46, 96));
+        scrollPane.getVerticalScrollBar().setBackground(new Color(60, 60, 60));
         scrollPane.getVerticalScrollBar().setUI(new BasicScrollBarUI() {
             @Override
             protected void configureScrollBarColors() {
-                this.thumbColor = new Color(11, 11, 35, 181);
+                this.thumbColor = new Color(222, 222, 222, 181);
             }
             @Override
             protected JButton createIncreaseButton(int orientation)  {
@@ -198,7 +246,7 @@ public class KesfetPenceresi {
         });
     }
 
-    // ScrollBar butonlarını kaldırmak için
+    // ScrollBar butonlarını kaldırır.
     protected JButton createZeroButton() {
         JButton button = new JButton("zero button");
         Dimension zeroDim = new Dimension(0,0);
@@ -208,16 +256,18 @@ public class KesfetPenceresi {
         return button;
     }
 
-    // Tür seçim efektleri
-    protected Font d = new Font("JetBrain MONO", Font.BOLD, 12);
-    protected Font f = new Font("JetBrain MONO", Font.BOLD, 15);
+    /**
+     * Keşfet bölümüne bir takım görsel efektler ekler.
+     */
+    protected Font d = new Font("JetBrain MONO", Font.BOLD, 14);
+    protected Font f = new Font("JetBrain MONO", Font.BOLD, 16);
     private void filmTuruListener(JLabel label) {
         label.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
                 label.setFont(f);
-                label.setForeground(new Color(155, 155, 255));
+                label.setForeground(new Color(255, 193, 7));
             }
 
             @Override
@@ -236,12 +286,40 @@ public class KesfetPenceresi {
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
                 label.setFont(kY);
+
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
                 label.setFont(kE);
+            }
+        });
+    }
+
+
+
+    /**
+     * Sol paneldeki film türlerine işlev kazandırır.
+     */
+    public void kesfetListeners(JLabel label, int i) {
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (query == null) {
+                    if (currentLabel != null) {
+                        currentLabel.setOpaque(false);
+                        currentLabel.setBorder(BorderFactory.createEmptyBorder());
+                    }
+                    currentLabel = label;
+                    if (currentLabel != kesfetLabel){
+                        label.setBackground(new Color(220, 53, 69));
+                        label.setOpaque(true);
+                    }
+                    sayfa = 1;
+                    tur = i;
+                    refreshFilmPaneli();
+                }
             }
         });
     }
@@ -253,27 +331,9 @@ public class KesfetPenceresi {
         }
     }
 
-    public void kesfetListeners(JLabel label, int i) {
-        label.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (query == null) {
-                    if (currentLabel != null) {currentLabel.setOpaque(false); currentLabel.setBorder(BorderFactory.createEmptyBorder());}
-                    currentLabel = label;
-                    if (currentLabel != kesfetLabel){
-                        label.setBackground(new Color(200,50,25));
-                        label.setBorder(BorderFactory.createMatteBorder(1,1,0,0,Color.red));
-                        label.setOpaque(true);
-                    }
-                    sayfa = 1;
-                    tur = i;
-                    refreshFilmPaneli();
-                }
-            }
-        });
-    }
-
-    //
+    /**
+     * Film panelini yenilenmesi için gerekli fonksiyonları belirli kriterlere göre çağırır.
+     */
 
     public void refreshFilmPaneli() {
         if (sonAramaTarihOnce == null && query == null) {
@@ -293,6 +353,9 @@ public class KesfetPenceresi {
         filmPanelOtomasyon();
     }
 
+    /**
+     * Arama kutusu ve arama butonuna işlev kazandırır.
+     */
     public void araFonksiyonu() {
         searchTF.addKeyListener(new KeyAdapter() {
             @Override
@@ -315,7 +378,7 @@ public class KesfetPenceresi {
             public void actionPerformed(ActionEvent e) {
                 if (searchTF.getText().equals("Ara")) {
                     query = null;
-//                    refreshFilmPaneli();
+                    refreshFilmPaneli();
                 }
                 else {
                     query = searchTF.getText();
@@ -324,6 +387,10 @@ public class KesfetPenceresi {
             }
         });
     }
+
+    /**
+     * Arama kutusunun içine ipucu metni yerleştirir.
+     */
     public void searchField() {
         searchTF.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(255, 254, 163),2),
                 new EmptyBorder(0, 6, 0, 0)));
@@ -343,31 +410,44 @@ public class KesfetPenceresi {
         });
     }
 
+    /**
+     * Sağ paneldeki filmlerin güncel bağlantıya göre yenilenmesini sağlar.
+     */
     public void filmPanelOtomasyon() {
         new Thread(() -> {
             System.out.println(currentLink);
             int panelSayisi = new TheMovieDb().kesfetListeUzunlugu(currentLink);
             JSONArray movies = new TheMovieDb().kesfetFilmListesi(currentLink);
             for (int i = 0; i < panelSayisi; i++) {
+
                 String currentImage = new TheMovieDb().findImage(movies, i);
                 if (currentImage == null) continue;
-                JLabel label = new JLabel(new ImageIcon(new TheMovieDb().imgParser(currentImage)));
+                JLabel posterImage = new JLabel(new ImageIcon(new TheMovieDb().imgParser(currentImage, true)));
+                posterImage.setBorder(new EmptyBorder(8,0,0,0));
                 JPanel panel = new JPanel(new BorderLayout());
-                JLabel textLabel = new JLabel(new TheMovieDb().findTitle(movies, i));
+                JLabel movieTitle = new JLabel(new TheMovieDb().findTitle(movies, i));
                 String originalTitle = new TheMovieDb().findOriginalTitle(movies, i);
-                panel.setBorder(BorderFactory.createMatteBorder(3,3,3,3,new Color(255, 254, 163)));
-                panel.setBackground(new Color(107, 107, 107));
+                panel.setBorder(BorderFactory.createMatteBorder(2,2,2,2, new Color(255, 193, 7)));
+                panel.setBackground(new Color(96, 96, 96));
 
-                textLabel.setFont(f);
-                textLabel.setForeground(new Color(255, 255, 255));
-                textLabel.setHorizontalAlignment(JLabel.CENTER);
-                textLabel.setVerticalAlignment(JLabel.NORTH);
+                int id = new TheMovieDb().findId(movies, i);
+                String filmTitle = new TheMovieDb().filmTitle(movies, i);
+                ArrayList<String> genres = new TheMovieDb().genres(movies, i);
+                String overview = new TheMovieDb().findOverview(movies, i);
+                String releaseDate = new TheMovieDb().findReleaseDate(movies, i);
+                ImageIcon filmImage = new TheMovieDb().backdropPic(movies, i);
+                Film film = new Film(id, filmTitle, genres, overview, releaseDate, filmImage);
+
+                movieTitle.setFont(f);
+                movieTitle.setForeground(new Color(255, 255, 255));
+                movieTitle.setHorizontalAlignment(JLabel.CENTER);
+                movieTitle.setVerticalAlignment(JLabel.CENTER);
                 makePanelsClickable(panel, originalTitle);
 
-                Fader fader = new Fader( new Color(26,26,28), 10, 15 );
+                Fader fader = new Fader( new Color(30,30,30), 10, 15 );
                 fader.add(panel);
-                panel.add(label, BorderLayout.NORTH);
-                panel.add(textLabel, BorderLayout.CENTER);
+                panel.add(posterImage, BorderLayout.NORTH);
+                panel.add(movieTitle, BorderLayout.CENTER);
                 filmPaneli.add(panel);
                 filmPaneli.revalidate();
                 filmPaneli.repaint();
@@ -379,7 +459,7 @@ public class KesfetPenceresi {
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
+                System.out.println("TIKLADIN HACI");
             }
 
             @Override
@@ -445,7 +525,6 @@ public class KesfetPenceresi {
                     JOptionPane.showMessageDialog(null, "Yalnızca rakam kullanarak arama yapabilirsiniz.",
                             "HATALI ARAMA", JOptionPane.INFORMATION_MESSAGE);
                 }
-
             }
         });
         araBuyuk.addActionListener(new ActionListener() {
@@ -497,7 +576,6 @@ public class KesfetPenceresi {
                 }
             }
         });
-
     }
     public void tarihTextArea() {
         tarihAyarla.addKeyListener(new KeyAdapter() {
@@ -510,5 +588,8 @@ public class KesfetPenceresi {
         });
     }
 
-
+    public void setKullanici(Kullanici kullanici) {
+        this.kullanici = kullanici;
+        kullaniciKontrol();
+    }
 }

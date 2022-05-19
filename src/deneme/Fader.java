@@ -7,78 +7,39 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Fader {
-    //  background color when component has focus
     private Color fadeColor;
 
-    //  steps to fade from original background to fade background
     private int steps;
 
-    //  apply transition colors at this time interval
     private int interval;
 
-    //  store transition colors from orginal background to fade background
     private Hashtable backgroundColors = new Hashtable();
 
-    /*
-     *  Fade from a background color to the specified color using
-     *  the default of 10 steps at a 50 millisecond interval.
-     *
-     *  @param fadeColor the temporary background color
-     */
     public Fader(Color fadeColor) {
         this(fadeColor, 10, 50);
     }
 
-    /*
-     *  Fade from a background color to the specified color in the
-     *  specified number of steps at the default 5 millisecond interval.
-     *
-     *  @param fadeColor the temporary background color
-     *  @param steps     the number of steps to fade in the color
-     */
     public Fader(Color fadeColor, int steps) {
         this(fadeColor, steps, 50);
     }
 
-    /*
-     *  Fade from a background color to the specified color in the
-     *  specified number of steps at the specified time interval.
-     *
-     *  @param fadeColor the temporary background color
-     *  @param steps     the number of steps to fade in the color
-     *  @param intevral  the interval to apply color fading
-     */
     public Fader(Color fadeColor, int steps, int interval) {
         this.fadeColor = fadeColor;
         this.steps = steps;
         this.interval = interval;
     }
 
-    /*
-     *  Add a component to this fader.
-     *
-     *  The fade color will be applied when the component gains focus.
-     *  The background color will be restored when the component loses focus.
-     *
-     *  @param component apply fading to this component
-     */
     public Fader add(JComponent component) {
-        //  Get colors to be used for fading
 
         ArrayList colors = getColors(component.getBackground());
 
-        //  FaderTimer will apply colors to the component
 
         new FaderTimer(colors, component, interval);
 
         return this;
     }
 
-    /*
-     **  Get the colors used to fade this background
-     */
     private ArrayList getColors(Color background) {
-        //  Check if the color ArrayList already exists
 
         Object o = backgroundColors.get(background);
 
@@ -86,7 +47,6 @@ public class Fader {
             return (ArrayList) o;
         }
 
-        //  Doesn't exist, create fader colors for this background
 
         ArrayList colors = new ArrayList(steps + 1);
         colors.add(background);
