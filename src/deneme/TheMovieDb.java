@@ -67,23 +67,23 @@ public class TheMovieDb extends Discover {
         for (int i = 0; i < turler.length(); i++) {
             int tur = turler.getInt(i);
             switch (tur) {
-                case 12 : genres.add("macera"); break;
-                case 35 : genres.add("komedi"); break;
-                case 80 : genres.add("suç"); break;
-                case 99 : genres.add("belgesel"); break;
-                case 16 : genres.add("animasyon"); break;
-                case 18 : genres.add("drama"); break;
-                case 10751 : genres.add("aile"); break;
-                case 14 : genres.add("fantastik"); break;
-                case 36 : genres.add("tarih"); break;
-                case 27 : genres.add("korku"); break;
-                case 10402 : genres.add("müzikal"); break;
-                case 9648 : genres.add("gizem"); break;
-                case 10749 : genres.add("romantik"); break;
-                case 878 : genres.add("bilim kurgu"); break;
-                case 53 : genres.add("gerilim"); break;
-                case 10752 : genres.add("savaş"); break;
-                case 37 : genres.add("batılı"); break;
+                case 12 : genres.add("Macera"); break;
+                case 35 : genres.add("Komedi"); break;
+                case 80 : genres.add("Suç"); break;
+                case 99 : genres.add("Belgesel"); break;
+                case 16 : genres.add("Animasyon"); break;
+                case 18 : genres.add("Drama"); break;
+                case 10751 : genres.add("Aile"); break;
+                case 14 : genres.add("Fantastik"); break;
+                case 36 : genres.add("Tarih"); break;
+                case 27 : genres.add("Korku"); break;
+                case 10402 : genres.add("Müzikal"); break;
+                case 9648 : genres.add("Gizem"); break;
+                case 10749 : genres.add("Romantik"); break;
+                case 878 : genres.add("Bilim Kurgu"); break;
+                case 53 : genres.add("Gerilim"); break;
+                case 10752 : genres.add("Savaş"); break;
+                case 37 : genres.add("Batılı"); break;
             }
         }
         return genres;
@@ -128,13 +128,11 @@ public class TheMovieDb extends Discover {
                 str.insert(25, "<br/>");
                 return str.toString();
             }
-            System.out.println("boşluk indexi: " + str.indexOf(" ") + " ayrilacak: " + ayrilacak);
             str.deleteCharAt(ayrilacak);
             str.insert(ayrilacak, "<br/>");
 
             if (str.substring(ayrilacak + 5).length() > 30) {
                 int ayrilacak2 = title.indexOf(" ", ayrilacak+10);
-                System.out.println(title + ayrilacak2);
                 if (ayrilacak2 == -1) {
                     str.insert(50, "<br/>");
                     return str.toString();

@@ -18,7 +18,6 @@ public class Giris {
 
     public Giris(KesfetPenceresi kesfetPenceresi){
         this.kesfetPenceresi = kesfetPenceresi;
-        //JFrame frame = new JFrame();
         frame.setSize(250,290);
         frame.add(panel1);
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();

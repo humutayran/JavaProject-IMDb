@@ -68,7 +68,7 @@ public class KesfetPenceresi {
     private int sayfa = 1;
     private Boolean sonAramaTarihOnce = null;
     private String query = null;
-    private Kullanici kullanici = null;
+    private Kullanici kullanici;
     JFrame frame = new JFrame();
 
 
@@ -95,6 +95,8 @@ public class KesfetPenceresi {
         populariteRadioButton.setSelected(true);
 
         currentLink = theMovieDb.linkGenerator(includeAdult, siralama, tur, yil, sayfa);
+        filmPaneli.setBackground(new Color(50,50,50));
+        filmPaneli.setForeground(new Color(50,50,50));
         searchField();
         filmPaneliLayers();
         scrollPaneSettings();
@@ -107,6 +109,7 @@ public class KesfetPenceresi {
         araFonksiyonu();
         kullaniciyaGec();
         kullaniciKontrol();
+
         Dimension dimension = new Dimension(900,550);
         frame.setMinimumSize(dimension);
         frame.setVisible(true);
@@ -122,33 +125,34 @@ public class KesfetPenceresi {
         if (kullanici != null) {
             kayitOlLabel.setVisible(false);
             girisYapLabel.setText(kullanici.getKullaniciAdi());
-            girisYapLabel.setFont(new Font("JetBrain MONO", Font.BOLD, 12));
+        }
+        else {
+            kayitOlLabel.setVisible(true);
+            girisYapLabel.setText("Giris Yap");
         }
     }
 
-
-    public void panelRenk(Color color) {
-        rightBottomPanel.setBackground(color);
-        leftPanel.setBackground(color);
-        rightTopPanel.setBackground(color);
-        scrollPanePanel.setBackground(new Color(30,30,30));
-        hasilatRadioButton.setBackground(color);
-        yetiskinIcerigiGizleRadioButton.setBackground(color);
-        populariteRadioButton.setBackground(color);
-    }
-
     private void kullaniciyaGec() {
+        cursorSettings(girisYapLabel);
+        cursorSettings(kayitOlLabel);
         girisYapLabel.addMouseListener(new MouseAdapter() {
+
             @Override
             public void mouseClicked(MouseEvent e) {
-                new Giris(Main.getKesfetPenceresi());
+                if (kullanici == null) {
+                    new Giris(Main.getKesfetPenceresi());
+                }
+                else {
+                    kullanici = null;
+                    kullaniciKontrol();
+                }
             }
         });
         kayitOlLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new KayitOl(Main.getKesfetPenceresi());
-
+                kullaniciKontrol();
             }
         });
     }
@@ -160,6 +164,7 @@ public class KesfetPenceresi {
         sayfaSayisi.setForeground(new Color(187,187,187));
         sayfaSayisi.setText(String.valueOf(theMovieDb.sayfaSayisi(currentLink,false)));
         sayfaSimdiki.setText(String.valueOf(theMovieDb.sayfaSayisi(currentLink,true)));
+        cursorSettings(sayfaSimdiki);
         sayfaSimdiki.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -202,11 +207,19 @@ public class KesfetPenceresi {
      * Radyo Butonlarına işlev kazandırır.
      */
     protected void filterWRadioButton() {
+        cursorSetting(populariteRadioButton);
+        cursorSetting(hasilatRadioButton);
+        cursorSetting(yetiskinIcerigiGizleRadioButton);
+
+        populariteRadioButton.setSelected(true);
         populariteRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 siralama = 0;
                 refreshFilmPaneli();
+                populariteRadioButton.setForeground(new Color(255,193,7));
+                hasilatRadioButton.setForeground(new Color(255,255,255));
+
             }
         });
         hasilatRadioButton.addActionListener(new ActionListener() {
@@ -214,6 +227,8 @@ public class KesfetPenceresi {
             public void actionPerformed(ActionEvent e) {
                 siralama = 1;
                 refreshFilmPaneli();
+                hasilatRadioButton.setForeground(new Color(255,193,7));
+                populariteRadioButton.setForeground(new Color(255,255,255));
             }
         });
         yetiskinIcerigiGizleRadioButton.addActionListener(new ActionListener() {
@@ -221,6 +236,12 @@ public class KesfetPenceresi {
             public void actionPerformed(ActionEvent e) {
                 includeAdult = !includeAdult;
                 refreshFilmPaneli();
+                if (yetiskinIcerigiGizleRadioButton.isSelected()) {
+                    yetiskinIcerigiGizleRadioButton.setForeground(new Color(255,193,7));
+                }
+                else {
+                    yetiskinIcerigiGizleRadioButton.setForeground(new Color(255,255,255));
+                }
             }
         });
     }
@@ -266,6 +287,7 @@ public class KesfetPenceresi {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
+                label.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 label.setFont(f);
                 label.setForeground(new Color(255, 193, 7));
             }
@@ -273,6 +295,7 @@ public class KesfetPenceresi {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
+                label.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 label.setFont(d);
                 label.setForeground(new Color(255, 255, 255));
             }
@@ -285,6 +308,7 @@ public class KesfetPenceresi {
             @Override
             public void mouseEntered(MouseEvent e) {
                 super.mouseEntered(e);
+                label.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 label.setFont(kY);
 
             }
@@ -292,6 +316,7 @@ public class KesfetPenceresi {
             @Override
             public void mouseExited(MouseEvent e) {
                 super.mouseExited(e);
+                label.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 label.setFont(kE);
             }
         });
@@ -357,6 +382,7 @@ public class KesfetPenceresi {
      * Arama kutusu ve arama butonuna işlev kazandırır.
      */
     public void araFonksiyonu() {
+        cursorSettings(searchTF);
         searchTF.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -386,7 +412,61 @@ public class KesfetPenceresi {
                 }
             }
         });
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button1.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button1.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
     }
+
+    public void cursorSettings(JTextField tf) {
+        tf.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                tf.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                tf.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
+    public void cursorSettings(JLabel label) {
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                label.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
+    public void cursorSetting(JRadioButton radioButton) {
+        radioButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                radioButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                radioButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+    }
+
 
     /**
      * Arama kutusunun içine ipucu metni yerleştirir.
@@ -437,12 +517,12 @@ public class KesfetPenceresi {
                 String releaseDate = new TheMovieDb().findReleaseDate(movies, i);
                 ImageIcon filmImage = new TheMovieDb().backdropPic(movies, i);
                 Film film = new Film(id, filmTitle, genres, overview, releaseDate, filmImage);
+                makePanelsClickable(panel, originalTitle, film);
 
                 movieTitle.setFont(f);
                 movieTitle.setForeground(new Color(255, 255, 255));
                 movieTitle.setHorizontalAlignment(JLabel.CENTER);
                 movieTitle.setVerticalAlignment(JLabel.CENTER);
-                makePanelsClickable(panel, originalTitle);
 
                 Fader fader = new Fader( new Color(30,30,30), 10, 15 );
                 fader.add(panel);
@@ -455,11 +535,12 @@ public class KesfetPenceresi {
         }).start();
     }
 
-    public void makePanelsClickable(JPanel panel, String originalTitle) {
+    public void makePanelsClickable(JPanel panel, String originalTitle, Film film) {
         panel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("TIKLADIN HACI");
+                frame.setVisible(false);
+                new FilmScreen(film, kullanici, Main.getKesfetPenceresi());
             }
 
             @Override
@@ -578,6 +659,7 @@ public class KesfetPenceresi {
         });
     }
     public void tarihTextArea() {
+        cursorSettings(tarihAyarla);
         tarihAyarla.addKeyListener(new KeyAdapter() {
             public void keyTyped(KeyEvent e) {
                 String tarih = tarihAyarla.getText();
@@ -591,5 +673,9 @@ public class KesfetPenceresi {
     public void setKullanici(Kullanici kullanici) {
         this.kullanici = kullanici;
         kullaniciKontrol();
+    }
+
+    public void setVisible(boolean w) {
+        frame.setVisible(w);
     }
 }
