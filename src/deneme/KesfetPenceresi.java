@@ -77,6 +77,8 @@ public class KesfetPenceresi {
         frame.add(panel1);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 
+        frame.setTitle("İSİMSİZ");
+
         panel1.setFocusable(true);
         rightBottomFlickInfoTF.setBorder(BorderFactory.createEmptyBorder());
 

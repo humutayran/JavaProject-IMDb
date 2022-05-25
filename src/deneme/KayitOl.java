@@ -36,7 +36,7 @@ public class KayitOl extends Dosya {
         frame.setLocation(x, y);
         kayitOlButton();
 
-        frame.setTitle("lalalalala");
+        frame.setTitle("Kayıt Ol");
 
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -58,6 +58,7 @@ public class KayitOl extends Dosya {
                 kullaniciAdiAl();
                 parolaAl();
                 parolaTekrarAl();
+                epostaAl();
                 if (!sifre.equals(sifreTekrar)) {
                     JOptionPane.showMessageDialog(null, "Parolanız uyuşmuyor.",
                             "HATALI PAROLA", JOptionPane.WARNING_MESSAGE);
@@ -70,17 +71,7 @@ public class KayitOl extends Dosya {
                     kesfetPenceresi.setKullanici(kullanici);
                     kullaniciEkle(kullanici);
                 }
-
             }
-
         });
-    }
-
-    public Kullanici getKullanici() {
-        return kullanici;
-    }
-
-    public void setKullanici(Kullanici kullanici) {
-        this.kullanici = kullanici;
     }
 }
