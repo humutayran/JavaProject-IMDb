@@ -3,7 +3,7 @@ package deneme;
 public abstract class Discover extends Connection {
 
     public String getUrl() {
-        final String s = "https://api.themoviedb.org/3/discover/movie?api_key=2f83aa9f8c12d7b99fb65e52dc811b6a&language=tr";
+        final String s = "https://api.themoviedb.org/3/discover/movie?api_key=your_api_key&language=tr";
 
         return s;
     }
