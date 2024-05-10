@@ -18,7 +18,7 @@ public class TheMovieDb extends Discover {
 
     public TheMovieDb() {
         this.apiUrl = "https://api.themoviedb.org/3";
-        this.apiKey = "2f83aa9f8c12d7b99fb65e52dc811b6a";
+        this.apiKey = "your_api_key";
 
     }
 
